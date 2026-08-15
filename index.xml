@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin>
+  <information>
+    <name>Signal</name>
+    <version>0.1.0</version>
+    <description><![CDATA[임베디드 엔지니어의 기술 기록을 위한 회로도풍 티스토리 스킨]]></description>
+    <license><![CDATA[Personal use]]></license>
+  </information>
+  <author>
+    <name>bromine1997</name>
+    <homepage>https://github.com/bromine1997</homepage>
+    <email></email>
+  </author>
+  <default>
+    <recentEntries>5</recentEntries>
+    <recentComments>5</recentComments>
+    <itemsOnGuestbook>10</itemsOnGuestbook>
+    <entriesOnPage>10</entriesOnPage>
+    <entriesOnList>10</entriesOnList>
+    <showListOnCategory>1</showListOnCategory>
+    <contentWidth>760</contentWidth>
+  </default>
+</skin>
