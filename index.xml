@@ -2,22 +2,69 @@
 <skin>
   <information>
     <name>Signal</name>
-    <version>0.1.0</version>
-    <description><![CDATA[임베디드 엔지니어의 기술 기록을 위한 회로도풍 티스토리 스킨]]></description>
-    <license><![CDATA[Personal use]]></license>
+    <version>0.2.0</version>
+    <description><![CDATA[임베디드 엔지니어의 기술 기록을 위한 회로도풍 반응형 티스토리 스킨]]></description>
+    <license><![CDATA[MIT License]]></license>
   </information>
   <author>
     <name>bromine1997</name>
-    <homepage>https://github.com/bromine1997</homepage>
+    <homepage>https://github.com/bromine1997/signal-tistory-skin</homepage>
     <email></email>
   </author>
   <default>
     <recentEntries>5</recentEntries>
     <recentComments>5</recentComments>
     <itemsOnGuestbook>10</itemsOnGuestbook>
+    <tagsInCloud>30</tagsInCloud>
+    <sortInCloud>2</sortInCloud>
     <entriesOnPage>10</entriesOnPage>
     <entriesOnList>10</entriesOnList>
     <showListOnCategory>1</showListOnCategory>
-    <contentWidth>760</contentWidth>
+    <showListOnArchive>1</showListOnArchive>
+    <contentWidth>820</contentWidth>
   </default>
+  <variables>
+    <variablegroup name="프로필">
+      <variable>
+        <name>profile-name</name>
+        <label><![CDATA[프로필 이름]]></label>
+        <type>STRING</type>
+        <option />
+        <default><![CDATA[서보민]]></default>
+        <description><![CDATA[사이드바와 푸터에 표시할 이름입니다.]]></description>
+      </variable>
+      <variable>
+        <name>profile-bio</name>
+        <label><![CDATA[프로필 소개]]></label>
+        <type>STRING</type>
+        <option />
+        <default><![CDATA[임베디드 / 펌웨어 개발자 · STM32 · ESP32 · AVR]]></default>
+        <description><![CDATA[사이드바 프로필 아래에 표시할 한 줄 소개입니다.]]></description>
+      </variable>
+      <variable>
+        <name>github-url</name>
+        <label><![CDATA[GitHub 주소]]></label>
+        <type>STRING</type>
+        <option />
+        <default><![CDATA[https://github.com/bromine1997]]></default>
+      </variable>
+      <variable>
+        <name>portfolio-url</name>
+        <label><![CDATA[포트폴리오 주소]]></label>
+        <type>STRING</type>
+        <option />
+        <default><![CDATA[https://bromine1997.github.io/portfolio/]]></default>
+      </variable>
+    </variablegroup>
+    <variablegroup name="사이드바">
+      <variable>
+        <name>show-visitor</name>
+        <label><![CDATA[방문자 수 표시]]></label>
+        <type>BOOL</type>
+        <option />
+        <default>true</default>
+        <description><![CDATA[오늘, 어제, 전체 방문자 수 카드를 표시합니다.]]></description>
+      </variable>
+    </variablegroup>
+  </variables>
 </skin>
