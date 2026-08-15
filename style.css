@@ -240,6 +240,7 @@ svg { display: block; }
 .category-card .category_list > li + li, .nav-dropdown-panel .category_list > li + li { margin-top: .2rem; }
 .category-card a, .nav-dropdown-panel a { display: block; padding: .32rem .4rem; color: var(--primary); border-radius: var(--radius); font-size: .8rem; }
 .category-card a:hover, .nav-dropdown-panel a:hover { background: var(--accent-soft); }
+.category-card .link_tit, .nav-dropdown-panel .link_tit { display: none; }
 .category-card .sub_category_list, .nav-dropdown-panel .sub_category_list { margin-left: .7rem; padding-left: .45rem; border-left: 1px solid var(--border); }
 .category-card .c_cnt, .nav-dropdown-panel .c_cnt { color: var(--secondary); font-size: .68rem; }
 
@@ -365,12 +366,24 @@ pre:hover .code-copy, .code-copy:focus-visible { opacity: 1; }
 .scroll-top.is-visible { opacity: 1; pointer-events: auto; transform: none; }
 #reading-progress { position: fixed; top: 0; left: 0; z-index: 2000; width: 0; height: 3px; background: var(--primary); }
 .signal-decor { position: fixed; inset: var(--header-height) 0 0; z-index: -1; overflow: hidden; color: var(--primary); pointer-events: none; }
-.signal-decor .decor { position: absolute; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; opacity: .1; }
-.decor-resistor { top: 12%; left: 2%; width: 72px; transform: rotate(-8deg); }
-.decor-capacitor { top: 61%; left: 3%; width: 64px; transform: rotate(12deg); }
-.decor-chip { top: 22%; right: 2%; width: 70px; transform: rotate(8deg); }
-.decor-diode { top: 76%; right: 3%; width: 72px; transform: rotate(-14deg); }
-:root[data-theme="dark"] .signal-decor .decor { opacity: .13; }
+.signal-decor .decor { position: absolute; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; opacity: .13; }
+.decor-resistor { top: 6%; left: 2.2%; width: 74px; transform: rotate(-8deg); }
+.decor-capacitor { top: 18%; left: 7.2%; width: 65px; transform: rotate(13deg); }
+.decor-inductor { top: 31%; left: 1.4%; width: 76px; transform: rotate(-12deg); }
+.decor-crystal { top: 44%; left: 8.2%; width: 62px; transform: rotate(7deg); }
+.decor-led { top: 58%; left: 2.8%; width: 66px; transform: rotate(-17deg); }
+.decor-transistor { top: 71%; left: 8%; width: 64px; transform: rotate(12deg); }
+.decor-resistor-2 { top: 84%; left: 2%; width: 78px; transform: rotate(9deg); }
+.decor-chip-2 { top: 93%; left: 8%; width: 67px; transform: rotate(-7deg); }
+.decor-chip { top: 5%; right: 2.2%; width: 69px; transform: rotate(8deg); }
+.decor-diode { top: 17%; right: 8%; width: 70px; transform: rotate(-14deg); }
+.decor-capacitor-2 { top: 30%; right: 1.8%; width: 67px; transform: rotate(-9deg); }
+.decor-inductor-2 { top: 43%; right: 7.5%; width: 78px; transform: rotate(11deg); }
+.decor-crystal-2 { top: 57%; right: 2.4%; width: 63px; transform: rotate(-6deg); }
+.decor-led-2 { top: 70%; right: 8.2%; width: 67px; transform: rotate(14deg); }
+.decor-transistor-2 { top: 83%; right: 2.2%; width: 66px; transform: rotate(-10deg); }
+.decor-diode-2 { top: 94%; right: 8%; width: 73px; transform: rotate(8deg); }
+:root[data-theme="dark"] .signal-decor .decor { opacity: .17; }
 
 /* Tistory comment/guestbook surface */
 .comments .tt-comment-cont, .guestbook-card .tt-comment-cont { color: var(--content); }

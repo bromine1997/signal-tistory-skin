@@ -2,13 +2,13 @@
 <skin>
   <information>
     <name>Signal</name>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
     <description><![CDATA[임베디드 엔지니어의 기술 기록을 위한 회로도풍 반응형 티스토리 스킨]]></description>
     <license><![CDATA[MIT License]]></license>
   </information>
   <author>
-    <name>bromine1997</name>
-    <homepage>https://github.com/bromine1997/signal-tistory-skin</homepage>
+    <name>Signal</name>
+    <homepage></homepage>
     <email></email>
   </author>
   <default>
@@ -26,34 +26,20 @@
   <variables>
     <variablegroup name="프로필">
       <variable>
-        <name>profile-name</name>
-        <label><![CDATA[프로필 이름]]></label>
-        <type>STRING</type>
-        <option />
-        <default><![CDATA[서보민]]></default>
-        <description><![CDATA[사이드바와 푸터에 표시할 이름입니다.]]></description>
-      </variable>
-      <variable>
-        <name>profile-bio</name>
-        <label><![CDATA[프로필 소개]]></label>
-        <type>STRING</type>
-        <option />
-        <default><![CDATA[임베디드 / 펌웨어 개발자 · STM32 · ESP32 · AVR]]></default>
-        <description><![CDATA[사이드바 프로필 아래에 표시할 한 줄 소개입니다.]]></description>
-      </variable>
-      <variable>
         <name>github-url</name>
         <label><![CDATA[GitHub 주소]]></label>
         <type>STRING</type>
         <option />
-        <default><![CDATA[https://github.com/bromine1997]]></default>
+        <default><![CDATA[]]></default>
+        <description><![CDATA[비워두면 GitHub 아이콘을 표시하지 않습니다.]]></description>
       </variable>
       <variable>
         <name>portfolio-url</name>
         <label><![CDATA[포트폴리오 주소]]></label>
         <type>STRING</type>
         <option />
-        <default><![CDATA[https://bromine1997.github.io/portfolio/]]></default>
+        <default><![CDATA[]]></default>
+        <description><![CDATA[비워두면 Projects 메뉴와 포트폴리오 아이콘을 표시하지 않습니다.]]></description>
       </variable>
     </variablegroup>
     <variablegroup name="사이드바">

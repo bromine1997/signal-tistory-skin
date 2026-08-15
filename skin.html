@@ -32,7 +32,6 @@
         </button>
 
         <div id="primary-menu" class="primary-menu">
-          <a href="[##_blog_link_##]">Home</a>
           <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" type="button" aria-expanded="false">
               Categories
@@ -40,8 +39,6 @@
             </button>
             <div class="nav-dropdown-panel" hidden>[##_category_list_##]</div>
           </div>
-          <a href="[##_taglog_link_##]">Tags</a>
-          <a href="[##_guestbook_link_##]">Guestbook</a>
           <s_if_var_portfolio-url><a href="[##_var_portfolio-url_##]" target="_blank" rel="noopener">Projects</a></s_if_var_portfolio-url>
         </div>
 
@@ -70,8 +67,8 @@
       <aside class="sidebar" aria-label="블로그 정보">
         <section class="side-card profile-card">
           <img class="profile-image" src="[##_image_##]" alt="[##_blogger_##] 프로필">
-          <strong class="profile-name">[##_var_profile-name_##]</strong>
-          <p class="profile-bio">[##_var_profile-bio_##]</p>
+          <strong class="profile-name">[##_blogger_##]</strong>
+          <p class="profile-bio">[##_desc_##]</p>
           <div class="profile-links">
             <s_if_var_github-url>
               <a href="[##_var_github-url_##]" target="_blank" rel="noopener" aria-label="GitHub 프로필">
@@ -83,9 +80,6 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h8"/></svg>
               </a>
             </s_if_var_portfolio-url>
-            <a href="[##_rss_url_##]" aria-label="RSS 피드">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="5" cy="19" r="1"/><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/></svg>
-            </a>
           </div>
         </section>
 
@@ -114,24 +108,13 @@
             </section>
           </s_sidebar_element>
 
-          <s_sidebar_element>
-            <!-- Recent posts -->
-            <section class="side-card recent-card">
-              <h2 class="side-title">Recent</h2>
-              <ul class="side-list">
-                <s_rctps_rep>
-                  <li><a href="[##_rctps_rep_link_##]">[##_rctps_rep_title_##]</a><time>[##_rctps_rep_simple_date_##]</time></li>
-                </s_rctps_rep>
-              </ul>
-            </section>
-          </s_sidebar_element>
         </s_sidebar>
       </aside>
 
       <main id="main-content" class="main-content" tabindex="-1">
         <section class="home-intro card-corners">
           <p class="eyebrow">Signal · Engineering Notes</p>
-          <h1>안녕하세요, [##_var_profile-name_##]입니다 <span aria-hidden="true">👋</span></h1>
+          <h1>안녕하세요, [##_blogger_##]입니다 <span aria-hidden="true">👋</span></h1>
           <p>[##_desc_##]</p>
           <div class="tech-stack" aria-label="주요 기술"><span>STM32</span><span>ESP32</span><span>AVR</span><span>Embedded</span></div>
         </section>
@@ -151,7 +134,7 @@
                   <a class="category-badge" href="[##_list_rep_category_link_##]">[##_list_rep_category_##]</a>
                   <h2><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></h2>
                   <p>[##_list_rep_summary_##]</p>
-                  <div class="post-meta"><time>[##_list_rep_regdate_##]</time><span aria-hidden="true">·</span><span>댓글 [##_list_rep_rp_cnt_##]</span></div>
+                  <div class="post-meta"><time>[##_list_rep_regdate_##]</time></div>
                 </div>
                 <s_list_rep_thumbnail><a class="post-thumbnail" href="[##_list_rep_link_##]" tabindex="-1" aria-hidden="true"><img src="[##_list_rep_thumbnail_##]" alt="" loading="lazy"></a></s_list_rep_thumbnail>
               </article>
@@ -166,7 +149,7 @@
                 <a class="category-badge" href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a>
                 <h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
                 <p>[##_article_rep_summary_##]</p>
-                <div class="post-meta"><time>[##_article_rep_simple_date_##]</time><s_rp_count><span aria-hidden="true">·</span><span>댓글 [##_article_rep_rp_cnt_##]</span></s_rp_count></div>
+                <div class="post-meta"><time>[##_article_rep_simple_date_##]</time></div>
               </div>
               <s_article_rep_thumbnail><a class="post-thumbnail" href="[##_article_rep_link_##]" tabindex="-1" aria-hidden="true"><img src="[##_article_rep_thumbnail_url_##]" alt="" loading="lazy"></a></s_article_rep_thumbnail>
             </article>
@@ -259,7 +242,7 @@
     </div>
 
     <footer class="site-footer">
-      <p>© [##_var_profile-name_##] · <a href="[##_blog_link_##]">Signal</a></p>
+      <p>© [##_blogger_##] · <a href="[##_blog_link_##]">Signal</a></p>
       <button class="scroll-top" type="button" aria-label="페이지 맨 위로 이동">↑</button>
     </footer>
   </s_t3>
@@ -269,6 +252,18 @@
     <svg class="decor decor-capacitor" viewBox="0 0 80 40"><path d="M2 20h28M30 5v30M48 5v30M48 20h30"/></svg>
     <svg class="decor decor-chip" viewBox="0 0 80 80"><rect x="20" y="20" width="40" height="40"/><path d="M28 20V8M40 20V8M52 20V8M28 60v12M40 60v12M52 60v12M20 28H8M20 40H8M20 52H8M60 28h12M60 40h12M60 52h12"/></svg>
     <svg class="decor decor-diode" viewBox="0 0 80 40"><path d="M2 20h22M24 7v26l25-13L24 7M49 7v26M49 20h29"/></svg>
+    <svg class="decor decor-inductor" viewBox="0 0 90 40"><path d="M2 24h10c0-15 18-15 18 0 0-15 18-15 18 0 0-15 18-15 18 0h22"/></svg>
+    <svg class="decor decor-crystal" viewBox="0 0 80 50"><path d="M2 25h18M20 10v30M28 7h24v36H28zM60 10v30M60 25h18"/></svg>
+    <svg class="decor decor-led" viewBox="0 0 80 60"><path d="M2 32h18M20 16v32l27-16-27-16M47 16v32M47 32h18M48 12l9-9M57 15l9-9"/></svg>
+    <svg class="decor decor-transistor" viewBox="0 0 70 70"><circle cx="35" cy="35" r="24"/><path d="M12 18v10l22 8M12 52V42l22-6 20-15M54 21v-9M34 36l20 15M54 51v9"/></svg>
+    <svg class="decor decor-resistor-2" viewBox="0 0 80 40"><path d="M2 20h14l6-10 10 20 10-20 10 20 6-10h20"/></svg>
+    <svg class="decor decor-capacitor-2" viewBox="0 0 80 40"><path d="M2 20h28M30 5v30M48 5v30M48 20h30"/></svg>
+    <svg class="decor decor-chip-2" viewBox="0 0 80 80"><rect x="20" y="20" width="40" height="40"/><path d="M28 20V8M40 20V8M52 20V8M28 60v12M40 60v12M52 60v12M20 28H8M20 40H8M20 52H8M60 28h12M60 40h12M60 52h12"/></svg>
+    <svg class="decor decor-diode-2" viewBox="0 0 80 40"><path d="M2 20h22M24 7v26l25-13L24 7M49 7v26M49 20h29"/></svg>
+    <svg class="decor decor-inductor-2" viewBox="0 0 90 40"><path d="M2 24h10c0-15 18-15 18 0 0-15 18-15 18 0 0-15 18-15 18 0h22"/></svg>
+    <svg class="decor decor-crystal-2" viewBox="0 0 80 50"><path d="M2 25h18M20 10v30M28 7h24v36H28zM60 10v30M60 25h18"/></svg>
+    <svg class="decor decor-led-2" viewBox="0 0 80 60"><path d="M2 32h18M20 16v32l27-16-27-16M47 16v32M47 32h18M48 12l9-9M57 15l9-9"/></svg>
+    <svg class="decor decor-transistor-2" viewBox="0 0 70 70"><circle cx="35" cy="35" r="24"/><path d="M12 18v10l22 8M12 52V42l22-6 20-15M54 21v-9M34 36l20 15M54 51v9"/></svg>
   </div>
 
   <dialog class="lightbox" aria-label="이미지 확대 보기">

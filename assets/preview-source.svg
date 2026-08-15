@@ -28,7 +28,7 @@
   <g transform="translate(405 118)">
     <rect width="810" height="235" fill="#fff" stroke="#dfe3e8"/>
     <text x="42" y="48" font-family="monospace" font-weight="700" font-size="13" letter-spacing="2" fill="#667085">SIGNAL · ENGINEERING NOTES</text>
-    <text x="42" y="102" font-family="Arial, sans-serif" font-weight="800" font-size="36" fill="#111827">안녕하세요, 서보민입니다</text>
+    <text x="42" y="102" font-family="Arial, sans-serif" font-weight="800" font-size="36" fill="#111827">안녕하세요, Engineer입니다</text>
     <rect x="42" y="130" width="525" height="12" fill="#9ca3af"/><rect x="42" y="158" width="380" height="12" fill="#9ca3af"/>
     <g transform="translate(42 190)" font-family="monospace" font-size="11" fill="#111827"><rect width="66" height="27" fill="#f3f4f6" stroke="#dfe3e8"/><text x="13" y="18">STM32</text><rect x="76" width="66" height="27" fill="#f3f4f6" stroke="#dfe3e8"/><text x="90" y="18">ESP32</text><rect x="152" width="52" height="27" fill="#f3f4f6" stroke="#dfe3e8"/><text x="168" y="18">AVR</text></g>
     <path d="M0 12V0h12M798 235h12v-12" fill="none" stroke="#111827"/>
