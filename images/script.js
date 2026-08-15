@@ -15,6 +15,25 @@
     if (button) button.setAttribute("aria-expanded", String(expanded));
   }
 
+  function copyText(value, successMessage) {
+    function done() { announce(successMessage); return true; }
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(value).then(done);
+    }
+
+    var field = document.createElement("textarea");
+    field.value = value;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.opacity = "0";
+    document.body.appendChild(field);
+    field.select();
+    var copied = document.execCommand("copy");
+    field.remove();
+    if (copied) return Promise.resolve(done());
+    return Promise.reject(new Error("copy failed"));
+  }
+
   function setupTheme() {
     var button = document.querySelector(".theme-toggle");
     var themeMeta = document.querySelector('meta[name="theme-color"]');
@@ -41,9 +60,6 @@
     var menu = document.getElementById("primary-menu");
     var dropdownButton = document.querySelector(".nav-dropdown-toggle");
     var dropdown = document.querySelector(".nav-dropdown-panel");
-    var searchButton = document.querySelector(".search-toggle");
-    var search = document.getElementById("header-search");
-    var searchInput = document.getElementById("signal-search");
 
     function closeMenu() {
       if (!menu || !navButton) return;
@@ -58,12 +74,6 @@
       if (!dropdown || !dropdownButton) return;
       dropdown.hidden = true;
       setExpanded(dropdownButton, false);
-    }
-
-    function closeSearch() {
-      if (!search || !searchButton) return;
-      search.hidden = true;
-      setExpanded(searchButton, false);
     }
 
     if (navButton && menu) {
@@ -87,23 +97,12 @@
       });
     }
 
-    if (searchButton && search) {
-      searchButton.addEventListener("click", function () {
-        var open = search.hidden;
-        search.hidden = !open;
-        setExpanded(searchButton, open);
-        if (open && searchInput) window.setTimeout(function () { searchInput.focus(); }, 0);
-      });
-    }
-
     document.addEventListener("click", function (event) {
       if (dropdown && !event.target.closest(".nav-dropdown")) closeDropdown();
-      if (search && !event.target.closest(".site-header")) closeSearch();
     });
     document.addEventListener("keydown", function (event) {
       if (event.key !== "Escape") return;
       closeDropdown();
-      closeSearch();
       closeMenu();
     });
     window.matchMedia("(min-width: 821px)").addEventListener("change", function (event) {
@@ -120,6 +119,44 @@
     });
   }
 
+  function setupOwnerTools() {
+    var tools = document.querySelector("[data-owner-tools]");
+    if (!tools) return;
+
+    var isOwner = Boolean(window.T && window.T.config && window.T.config.ROLE === "owner");
+    if (!isOwner) {
+      tools.remove();
+      return;
+    }
+
+    var button = tools.querySelector(".owner-fab");
+    var label = button && button.querySelector(".sr-only");
+    tools.hidden = false;
+
+    function close() {
+      tools.classList.remove("is-open");
+      setExpanded(button, false);
+      if (label) label.textContent = "관리자 메뉴 열기";
+    }
+
+    if (button) {
+      button.addEventListener("click", function () {
+        var open = !tools.classList.contains("is-open");
+        tools.classList.toggle("is-open", open);
+        setExpanded(button, open);
+        if (label) label.textContent = open ? "관리자 메뉴 닫기" : "관리자 메뉴 열기";
+      });
+    }
+
+    document.addEventListener("click", function (event) {
+      if (!event.target.closest("[data-owner-tools]")) close();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") close();
+    });
+    window.matchMedia("(min-width: 821px)").addEventListener("change", close);
+  }
+
   function setupTables(content) {
     if (!content) return;
     content.querySelectorAll("table").forEach(function (table) {
@@ -134,29 +171,64 @@
     });
   }
 
-  function setupCodeCopy(content) {
+  function setupCodeBlocks(content) {
     if (!content) return;
     content.querySelectorAll("pre").forEach(function (pre) {
-      if (pre.querySelector(".code-copy")) return;
+      if (pre.closest(".code-frame")) return;
       var code = pre.querySelector("code");
-      var button = document.createElement("button");
-      button.type = "button";
-      button.className = "code-copy";
-      button.textContent = "COPY";
-      button.setAttribute("aria-label", "코드 복사");
-      button.addEventListener("click", function () {
-        var value = code ? code.textContent : pre.textContent;
-        navigator.clipboard.writeText(value).then(function () {
-          button.textContent = "COPIED";
-          announce("코드를 복사했습니다.");
-          window.setTimeout(function () { button.textContent = "COPY"; }, 1600);
+      var value = code ? code.textContent : pre.textContent;
+      var frame = document.createElement("div");
+      var toolbar = document.createElement("div");
+      var language = document.createElement("span");
+      var copy = document.createElement("button");
+      var expand = document.createElement("button");
+      var classText = ((code && code.className) || "") + " " + (pre.className || "");
+      var languageMatch = classText.match(/(?:language|lang)-([a-z0-9+#-]+)/i);
+      var languageName = pre.dataset.language || pre.dataset.keLanguage || (languageMatch && languageMatch[1]) || "CODE";
+
+      frame.className = "code-frame";
+      toolbar.className = "code-toolbar";
+      language.className = "code-language";
+      language.textContent = languageName.toUpperCase();
+      copy.type = "button";
+      copy.className = "code-copy";
+      copy.textContent = "COPY";
+      copy.setAttribute("aria-label", languageName + " 코드 복사");
+      expand.type = "button";
+      expand.className = "code-expand";
+      expand.textContent = "전체 코드 보기";
+      expand.setAttribute("aria-expanded", "false");
+      expand.hidden = true;
+
+      pre.parentNode.insertBefore(frame, pre);
+      toolbar.appendChild(language);
+      toolbar.appendChild(copy);
+      toolbar.appendChild(expand);
+      frame.appendChild(toolbar);
+      frame.appendChild(pre);
+
+      copy.addEventListener("click", function () {
+        copyText(value, "코드를 복사했습니다.").then(function () {
+          copy.textContent = "COPIED";
+          window.setTimeout(function () { copy.textContent = "COPY"; }, 1600);
         }).catch(function () {
-          button.textContent = "FAILED";
+          copy.textContent = "FAILED";
           announce("코드를 복사하지 못했습니다.");
-          window.setTimeout(function () { button.textContent = "COPY"; }, 1600);
+          window.setTimeout(function () { copy.textContent = "COPY"; }, 1600);
         });
       });
-      pre.appendChild(button);
+
+      window.requestAnimationFrame(function () {
+        if (pre.scrollHeight <= 520) return;
+        frame.classList.add("is-collapsed");
+        expand.hidden = false;
+        expand.addEventListener("click", function () {
+          var collapsed = frame.classList.toggle("is-collapsed");
+          expand.textContent = collapsed ? "전체 코드 보기" : "코드 접기";
+          expand.setAttribute("aria-expanded", String(!collapsed));
+          if (collapsed) pre.scrollIntoView({ block: "nearest" });
+        });
+      });
     });
   }
 
@@ -166,7 +238,14 @@
     var dialogImage = dialog.querySelector("img");
     var caption = dialog.querySelector("figcaption");
     var close = dialog.querySelector(".lightbox-close");
+    var previous = dialog.querySelector(".lightbox-prev");
+    var next = dialog.querySelector(".lightbox-next");
+    var counter = dialog.querySelector(".lightbox-counter");
+    var images = Array.from(content.querySelectorAll("img")).filter(function (image) {
+      return !image.closest("a") && !image.hasAttribute("data-no-lightbox");
+    });
     var opener = null;
+    var currentIndex = 0;
 
     function getCaption(image) {
       var figure = image.closest("figure");
@@ -177,18 +256,35 @@
       return image.alt || "";
     }
 
-    function open(image) {
-      opener = image;
+    function render(index) {
+      currentIndex = index;
+      var image = images[currentIndex];
       dialogImage.src = image.currentSrc || image.src;
       dialogImage.alt = image.alt || "확대 이미지";
       caption.textContent = getCaption(image);
       caption.hidden = !caption.textContent;
+      counter.textContent = (currentIndex + 1) + " / " + images.length;
+      counter.hidden = images.length < 2;
+      previous.hidden = images.length < 2;
+      next.hidden = images.length < 2;
+      previous.disabled = currentIndex === 0;
+      next.disabled = currentIndex === images.length - 1;
+    }
+
+    function open(image) {
+      opener = image;
+      render(images.indexOf(image));
       dialog.showModal();
       close.focus();
     }
 
-    content.querySelectorAll("img").forEach(function (image) {
-      if (image.closest("a") || image.hasAttribute("data-no-lightbox")) return;
+    function move(delta) {
+      var nextIndex = currentIndex + delta;
+      if (nextIndex < 0 || nextIndex >= images.length) return;
+      render(nextIndex);
+    }
+
+    images.forEach(function (image) {
       image.tabIndex = 0;
       image.setAttribute("role", "button");
       image.setAttribute("aria-label", (image.alt ? image.alt + " — " : "") + "이미지 확대 보기");
@@ -203,7 +299,13 @@
 
     function closeDialog() { if (dialog.open) dialog.close(); }
     close.addEventListener("click", closeDialog);
+    previous.addEventListener("click", function () { move(-1); });
+    next.addEventListener("click", function () { move(1); });
     dialog.addEventListener("click", function (event) { if (event.target === dialog) closeDialog(); });
+    dialog.addEventListener("keydown", function (event) {
+      if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); move(1); }
+    });
     dialog.addEventListener("close", function () {
       dialogImage.src = "";
       if (opener) opener.focus();
@@ -217,10 +319,25 @@
       .replace(/-+/g, "-") || "section";
   }
 
+  function setupPageSharing() {
+    var button = document.querySelector("[data-copy-page]");
+    if (!button) return;
+    var label = button.querySelector("span");
+    button.addEventListener("click", function () {
+      copyText(window.location.href, "글 링크를 복사했습니다.").then(function () {
+        if (label) label.textContent = "복사됨";
+        window.setTimeout(function () { if (label) label.textContent = "링크 복사"; }, 1600);
+      }).catch(function () { announce("링크를 복사하지 못했습니다."); });
+    });
+  }
+
   function setupToc(content) {
     var toc = document.getElementById("article-toc");
     var sidebar = document.querySelector(".toc-sidebar");
     var inline = document.querySelector("[data-toc-copy]");
+    var mobileToggle = document.querySelector(".mobile-toc-toggle");
+    var mobileClose = inline && inline.querySelector(".mobile-toc-close");
+    var backdrop = document.querySelector(".toc-backdrop");
     if (!content || !toc || !sidebar) {
       if (sidebar) sidebar.classList.add("is-empty");
       return;
@@ -233,10 +350,29 @@
 
     var used = Object.create(null);
     headings.forEach(function (heading) {
-      var base = heading.id || slugify(heading.textContent);
+      var headingText = heading.textContent.trim();
+      var base = heading.id || slugify(headingText);
       var count = used[base] || 0;
       used[base] = count + 1;
       heading.id = count ? base + "-" + (count + 1) : base;
+      heading.dataset.tocLabel = headingText;
+
+      var anchor = document.createElement("a");
+      anchor.className = "heading-anchor";
+      anchor.href = "#" + encodeURIComponent(heading.id);
+      anchor.textContent = "#";
+      anchor.setAttribute("aria-label", headingText + " 섹션 링크 복사");
+      anchor.title = "이 섹션 링크 복사";
+      anchor.addEventListener("click", function (event) {
+        if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        var url = new URL(window.location.href);
+        url.hash = heading.id;
+        copyText(url.href, "섹션 링크를 복사했습니다.").then(function () {
+          window.history.replaceState(null, "", url.href);
+        }).catch(function () { announce("섹션 링크를 복사하지 못했습니다."); });
+      });
+      heading.appendChild(anchor);
     });
 
     var rootList = document.createElement("ol");
@@ -245,7 +381,7 @@
       var item = document.createElement("li");
       var link = document.createElement("a");
       link.href = "#" + encodeURIComponent(heading.id);
-      link.textContent = heading.textContent;
+      link.textContent = heading.dataset.tocLabel;
       link.dataset.target = heading.id;
       item.appendChild(link);
       if (heading.tagName === "H3" && lastH2Item) {
@@ -262,6 +398,31 @@
     if (inline) {
       inline.appendChild(rootList.cloneNode(true));
       inline.hidden = false;
+    }
+    if (mobileToggle) mobileToggle.hidden = false;
+
+    function closeMobileToc() {
+      if (!inline || !mobileToggle) return;
+      inline.classList.remove("is-open");
+      body.classList.remove("toc-open");
+      mobileToggle.setAttribute("aria-expanded", "false");
+      if (backdrop) backdrop.hidden = true;
+    }
+
+    if (mobileToggle && inline) {
+      mobileToggle.addEventListener("click", function () {
+        var open = !inline.classList.contains("is-open");
+        inline.classList.toggle("is-open", open);
+        body.classList.toggle("toc-open", open);
+        mobileToggle.setAttribute("aria-expanded", String(open));
+        if (backdrop) backdrop.hidden = !open;
+        if (open && mobileClose) mobileClose.focus();
+      });
+      inline.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMobileToc); });
+      if (mobileClose) mobileClose.addEventListener("click", closeMobileToc);
+      if (backdrop) backdrop.addEventListener("click", closeMobileToc);
+      document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeMobileToc(); });
+      window.matchMedia("(min-width: 821px)").addEventListener("change", closeMobileToc);
     }
 
     var links = Array.from(toc.querySelectorAll("a"));
@@ -289,8 +450,10 @@
     setupTheme();
     setupNavigation();
     setupVisitorCounts();
+    setupOwnerTools();
+    setupPageSharing();
     setupTables(content);
-    setupCodeCopy(content);
+    setupCodeBlocks(content);
     setupLightbox(content);
     setupToc(content);
   });
