@@ -188,7 +188,7 @@
     }
 
     content.querySelectorAll("img").forEach(function (image) {
-      if (image.closest("a") || image.hasAttribute("data-no-lightbox") || image.width < 120) return;
+      if (image.closest("a") || image.hasAttribute("data-no-lightbox")) return;
       image.tabIndex = 0;
       image.setAttribute("role", "button");
       image.setAttribute("aria-label", (image.alt ? image.alt + " — " : "") + "이미지 확대 보기");
@@ -221,7 +221,10 @@
     var toc = document.getElementById("article-toc");
     var sidebar = document.querySelector(".toc-sidebar");
     var inline = document.querySelector("[data-toc-copy]");
-    if (!content || !toc || !sidebar) return;
+    if (!content || !toc || !sidebar) {
+      if (sidebar) sidebar.classList.add("is-empty");
+      return;
+    }
     var headings = Array.from(content.querySelectorAll("h2, h3"));
     if (headings.length < 2) {
       sidebar.classList.add("is-empty");
@@ -281,50 +284,6 @@
     }
   }
 
-  function setupReading(content) {
-    var label = document.querySelector(".js-reading-time");
-    var bar = document.getElementById("reading-progress");
-    if (!content) return;
-    if (label) {
-      var words = content.textContent.trim().split(/\s+/).filter(Boolean).length;
-      var codeLines = content.querySelectorAll("pre code").length ? content.querySelectorAll("pre").length * 18 : 0;
-      var minutes = Math.max(1, Math.ceil((words + codeLines) / 300));
-      label.textContent = "약 " + minutes + "분";
-    }
-    if (!bar) return;
-    function update() {
-      var rect = content.getBoundingClientRect();
-      var start = window.scrollY + rect.top;
-      var end = start + content.offsetHeight - window.innerHeight;
-      var progress = end <= start ? 1 : Math.min(1, Math.max(0, (window.scrollY - start) / (end - start)));
-      bar.style.width = (progress * 100).toFixed(2) + "%";
-    }
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    update();
-  }
-
-  function setupScrollTop() {
-    var button = document.querySelector(".scroll-top");
-    if (!button) return;
-    function sync() { button.classList.toggle("is-visible", window.scrollY > 600); }
-    window.addEventListener("scroll", sync, { passive: true });
-    button.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
-    sync();
-  }
-
-  function setupExternalLinks(content) {
-    if (!content) return;
-    content.querySelectorAll('a[href^="http"]').forEach(function (link) {
-      try {
-        if (new URL(link.href).host === window.location.host) return;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        if (!link.getAttribute("aria-label")) link.setAttribute("aria-label", link.textContent.trim() + " (새 창)");
-      } catch (error) { /* Ignore malformed editor links. */ }
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     var content = document.querySelector(".article-content");
     setupTheme();
@@ -334,8 +293,5 @@
     setupCodeCopy(content);
     setupLightbox(content);
     setupToc(content);
-    setupReading(content);
-    setupScrollTop();
-    setupExternalLinks(content);
   });
 }());

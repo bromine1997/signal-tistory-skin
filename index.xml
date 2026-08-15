@@ -2,8 +2,8 @@
 <skin>
   <information>
     <name>Signal</name>
-    <version>0.2.1</version>
-    <description><![CDATA[임베디드 엔지니어의 기술 기록을 위한 회로도풍 반응형 티스토리 스킨]]></description>
+    <version>0.2.2</version>
+    <description><![CDATA[기술 기록을 위한 회로도풍 반응형 티스토리 스킨]]></description>
     <license><![CDATA[MIT License]]></license>
   </information>
   <author>
@@ -24,24 +24,6 @@
     <contentWidth>820</contentWidth>
   </default>
   <variables>
-    <variablegroup name="프로필">
-      <variable>
-        <name>github-url</name>
-        <label><![CDATA[GitHub 주소]]></label>
-        <type>STRING</type>
-        <option />
-        <default><![CDATA[]]></default>
-        <description><![CDATA[비워두면 GitHub 아이콘을 표시하지 않습니다.]]></description>
-      </variable>
-      <variable>
-        <name>portfolio-url</name>
-        <label><![CDATA[포트폴리오 주소]]></label>
-        <type>STRING</type>
-        <option />
-        <default><![CDATA[]]></default>
-        <description><![CDATA[비워두면 Projects 메뉴와 포트폴리오 아이콘을 표시하지 않습니다.]]></description>
-      </variable>
-    </variablegroup>
     <variablegroup name="사이드바">
       <variable>
         <name>show-visitor</name>
