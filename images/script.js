@@ -158,6 +158,32 @@
     });
   }
 
+  function setupCategoryCounts() {
+    function readCount(element) {
+      if (!element) return 0;
+      var digits = element.textContent.replace(/[^0-9]/g, "");
+      return digits ? Number(digits) : 0;
+    }
+
+    document.querySelectorAll(".tt_category .category_list > li").forEach(function (category) {
+      var children = Array.from(category.children);
+      var parentLink = children.find(function (child) { return child.matches("a.link_item"); });
+      var subCategoryList = children.find(function (child) { return child.matches("ul.sub_category_list"); });
+      if (!parentLink || !subCategoryList) return;
+
+      var parentCount = parentLink.querySelector(".c_cnt");
+      if (!parentCount) return;
+      var childTotal = Array.from(subCategoryList.children).reduce(function (total, child) {
+        return total + readCount(child.querySelector(".link_sub_item .c_cnt"));
+      }, 0);
+      var total = readCount(parentCount) + childTotal;
+      var formatted = total.toLocaleString("ko-KR");
+      parentCount.textContent = "(" + formatted + ")";
+      parentCount.setAttribute("aria-label", "하위 카테고리 포함 " + formatted + "개 글");
+      parentCount.title = "하위 카테고리 포함 " + formatted + "개 글";
+    });
+  }
+
   function setupOwnerTools() {
     var tools = document.querySelector("[data-owner-tools]");
     if (!tools) return;
@@ -194,6 +220,15 @@
       if (event.key === "Escape") close();
     });
     window.matchMedia("(min-width: 821px)").addEventListener("change", close);
+  }
+
+  function setupEditorSpacing(content) {
+    if (!content) return;
+    content.querySelectorAll("p").forEach(function (paragraph) {
+      var text = paragraph.textContent.replace(/\u00a0/g, "").trim();
+      var media = paragraph.querySelector("img, picture, video, iframe, audio, object, embed, table, pre, figure");
+      if (!text && !media) paragraph.classList.add("editor-spacer");
+    });
   }
 
   function setupTables(content) {
@@ -500,8 +535,10 @@
     setupTheme();
     setupNavigation();
     setupVisitorCounts();
+    setupCategoryCounts();
     setupOwnerTools();
     setupPageSharing();
+    setupEditorSpacing(content);
     setupTables(content);
     setupCodeBlocks(content);
     setupLightbox(content);

@@ -299,6 +299,7 @@ body:not(#tt-body-page) .toc-sidebar { display: none; }
 .article-content > :first-child { margin-top: 0; }
 .article-content > :last-child { margin-bottom: 0; }
 .article-content p { margin: 0 0 1.25rem; }
+.article-content p.editor-spacer { min-height: 1em; margin: 0; line-height: 1; }
 .article-content h2, .article-content h3, .article-content h4 { color: var(--primary); scroll-margin-top: calc(var(--header-height) + 22px); }
 .article-content h2 { margin: 2.6rem 0 1rem; padding-left: .85rem; border-left: 4px solid var(--accent); font-size: 1.42rem; line-height: 1.45; }
 .article-content h3 { margin: 2rem 0 .8rem; font-size: 1.18rem; }
