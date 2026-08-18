@@ -2,7 +2,7 @@
 <skin>
   <information>
     <name>Signal</name>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <description><![CDATA[기술 기록을 위한 회로도풍 반응형 티스토리 스킨]]></description>
     <license><![CDATA[MIT License]]></license>
   </information>
@@ -21,10 +21,26 @@
     <entriesOnList>10</entriesOnList>
     <showListOnCategory>1</showListOnCategory>
     <showListOnArchive>1</showListOnArchive>
-    <contentWidth>820</contentWidth>
+    <contentWidth>920</contentWidth>
   </default>
   <variables>
     <variablegroup name="사이드바">
+      <variable>
+        <name>show-profile</name>
+        <label><![CDATA[프로필 표시]]></label>
+        <type>BOOL</type>
+        <option />
+        <default>true</default>
+        <description><![CDATA[티스토리 프로필 이미지, 작성자명과 블로그 설명을 표시합니다.]]></description>
+      </variable>
+      <variable>
+        <name>profile-intro</name>
+        <label><![CDATA[추가 소개 문구]]></label>
+        <type>STRING</type>
+        <option />
+        <default></default>
+        <description><![CDATA[프로필 카드에 블로그 설명 아래 추가로 표시할 문구입니다.]]></description>
+      </variable>
       <variable>
         <name>show-visitor</name>
         <label><![CDATA[방문자 수 표시]]></label>

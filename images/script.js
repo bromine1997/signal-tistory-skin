@@ -60,6 +60,9 @@
     var menu = document.getElementById("primary-menu");
     var dropdownButton = document.querySelector(".nav-dropdown-toggle");
     var dropdown = document.querySelector(".nav-dropdown-panel");
+    var searchButton = document.querySelector(".search-toggle");
+    var search = document.getElementById("header-search");
+    var searchInput = document.getElementById("signal-search");
 
     function closeMenu() {
       if (!menu || !navButton) return;
@@ -74,6 +77,14 @@
       if (!dropdown || !dropdownButton) return;
       dropdown.hidden = true;
       setExpanded(dropdownButton, false);
+    }
+
+    function closeSearch() {
+      if (!search || !searchButton) return;
+      search.hidden = true;
+      setExpanded(searchButton, false);
+      var label = searchButton.querySelector(".sr-only");
+      if (label) label.textContent = "검색 열기";
     }
 
     if (navButton && menu) {
@@ -97,12 +108,25 @@
       });
     }
 
+    if (searchButton && search) {
+      searchButton.addEventListener("click", function () {
+        var open = search.hidden;
+        search.hidden = !open;
+        setExpanded(searchButton, open);
+        var label = searchButton.querySelector(".sr-only");
+        if (label) label.textContent = open ? "검색 닫기" : "검색 열기";
+        if (open && searchInput) window.setTimeout(function () { searchInput.focus(); }, 0);
+      });
+    }
+
     document.addEventListener("click", function (event) {
       if (dropdown && !event.target.closest(".nav-dropdown")) closeDropdown();
+      if (search && !event.target.closest(".header-search") && !event.target.closest(".search-toggle")) closeSearch();
     });
     document.addEventListener("keydown", function (event) {
       if (event.key !== "Escape") return;
       closeDropdown();
+      closeSearch();
       closeMenu();
     });
     window.matchMedia("(min-width: 821px)").addEventListener("change", function (event) {
