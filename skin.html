@@ -74,6 +74,17 @@
         </s_if_var_show-profile>
 
         <s_sidebar>
+          <s_sidebar_element>
+            <!-- Categories -->
+            <section class="side-card category-card">
+              <h2 class="side-title">Categories</h2>
+              [##_category_list_##]
+            </section>
+          </s_sidebar_element>
+
+        </s_sidebar>
+
+        <s_sidebar>
         <s_if_var_show-visitor>
           <s_sidebar_element>
             <!-- Visitors -->
@@ -87,17 +98,6 @@
             </section>
           </s_sidebar_element>
         </s_if_var_show-visitor>
-        </s_sidebar>
-
-        <s_sidebar>
-          <s_sidebar_element>
-            <!-- Categories -->
-            <section class="side-card category-card">
-              <h2 class="side-title">Categories</h2>
-              [##_category_list_##]
-            </section>
-          </s_sidebar_element>
-
         </s_sidebar>
 
         <section class="side-card owner-card" data-owner-tools hidden>
@@ -183,14 +183,9 @@
                 </footer>
               </s_ad_div>
 
-              <nav class="post-navigation" aria-label="이전 글과 다음 글">
-                <s_article_prev><a href="[##_article_prev_link_##]"><span>Previous</span><strong>[##_article_prev_title_##]</strong></a></s_article_prev>
-                <s_article_next><a href="[##_article_next_link_##]"><span>Next</span><strong>[##_article_next_title_##]</strong></a></s_article_next>
-              </nav>
-
               <s_article_related>
                 <section class="related-posts" aria-labelledby="related-title">
-                  <div class="section-heading"><h2 id="related-title">같은 카테고리의 다른 글</h2><a href="[##_article_rep_category_link_##]">전체 보기</a></div>
+                  <div class="section-heading"><h2 id="related-title">이 카테고리에서 더 읽기</h2><a href="[##_article_rep_category_link_##]">[##_article_rep_category_##] 전체 보기</a></div>
                   <ul>
                     <s_article_related_rep>
                       <li class="[##_article_related_rep_type_##]">
