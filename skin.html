@@ -39,24 +39,25 @@
         </div>
 
         <div class="nav-actions">
-          <button class="search-toggle icon-button" type="button" aria-expanded="false" aria-controls="header-search">
-            <span class="sr-only">검색 열기</span>
-            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          </button>
+          <div class="search-control">
+            <button class="search-toggle icon-button" type="button" aria-expanded="false" aria-controls="header-search">
+              <span class="sr-only">검색 열기</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            </button>
+            <div id="header-search" class="header-search" role="search" hidden>
+              <s_search>
+                <label class="sr-only" for="signal-search">블로그 검색</label>
+                <input id="signal-search" type="search" name="[##_search_name_##]" value="[##_search_text_##]" placeholder="검색어를 입력하세요" autocomplete="off" onkeydown="if (event.key === 'Enter') { [##_search_onclick_submit_##] }">
+                <button type="button" onclick="[##_search_onclick_submit_##]">검색</button>
+              </s_search>
+            </div>
+          </div>
           <button class="theme-toggle icon-button" type="button" aria-label="다크 모드로 전환">
             <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
             <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
           </button>
         </div>
       </nav>
-
-      <div id="header-search" class="header-search" hidden>
-        <s_search>
-          <label class="sr-only" for="signal-search">블로그 검색</label>
-          <input id="signal-search" type="search" name="[##_search_name_##]" value="[##_search_text_##]" placeholder="검색어를 입력하세요" onkeydown="if (event.key === 'Enter') { [##_search_onclick_submit_##] }">
-          <button type="button" onclick="[##_search_onclick_submit_##]">검색</button>
-        </s_search>
-      </div>
     </header>
 
     <div class="site-shell">
@@ -121,7 +122,7 @@
       <main id="main-content" class="main-content" tabindex="-1">
         <s_list>
           <header class="list-header card-corners">
-            <p class="eyebrow">Archive</p>
+            <p class="eyebrow">Posts</p>
             <h1>[##_list_conform_##]</h1>
             <p>[##_list_description_##]</p>
             <span class="list-count">[##_list_count_##] posts</span>
@@ -149,6 +150,10 @@
                 <h1>[##_article_rep_title_##]</h1>
                 <div class="post-meta"><a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a><span aria-hidden="true">·</span><time>[##_article_rep_date_##]</time></div>
                 <div class="article-actions">
+                  <div class="article-permalink" aria-label="현재 글 주소">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 15 15 9"/><path d="M11 6.5 13.5 4A4.2 4.2 0 0 1 19.5 10l-2.5 2.5"/><path d="m13 17.5-2.5 2.5a4.2 4.2 0 0 1-6-6L7 11.5"/></svg>
+                    <span data-page-url></span>
+                  </div>
                   <button type="button" class="article-action" data-copy-page>
                     <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 15 15 9"/><path d="M11 6.5 13.5 4A4.2 4.2 0 0 1 19.5 10l-2.5 2.5"/><path d="m13 17.5-2.5 2.5a4.2 4.2 0 0 1-6-6L7 11.5"/></svg>
                     <span>링크 복사</span>
@@ -158,14 +163,6 @@
                     <span>목차</span>
                   </button>
                 </div>
-                <s_ad_div>
-                  <div class="article-admin" aria-label="글 관리">
-                    <a href="[##_s_ad_m_link_##]">수정</a>
-                    <span class="article-status">[##_s_ad_s1_label_##]</span>
-                    <button type="button" onclick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</button>
-                    <button type="button" class="article-delete" onclick="[##_s_ad_d_onclick_##]">삭제</button>
-                  </div>
-                </s_ad_div>
               </header>
 
               <button class="toc-backdrop" type="button" aria-label="목차 닫기" hidden></button>
@@ -174,7 +171,17 @@
               </div>
               <div class="article-content">[##_article_rep_desc_##]</div>
 
-              <s_tag_label><div class="tag-trail" aria-label="태그">[##_tag_label_rep_##]</div></s_tag_label>
+              <s_tag_label><div class="tag-trail" aria-label="키워드"><span class="tag-title">Keywords</span>[##_tag_label_rep_##]</div></s_tag_label>
+
+              <s_ad_div>
+                <footer class="article-admin" aria-label="글 관리">
+                  <strong class="article-admin-title">Post settings</strong>
+                  <a href="[##_s_ad_m_link_##]">수정</a>
+                  <span class="article-status">[##_s_ad_s1_label_##]</span>
+                  <button type="button" onclick="[##_s_ad_s2_onclick_##]">[##_s_ad_s2_label_##]</button>
+                  <button type="button" class="article-delete" onclick="[##_s_ad_d_onclick_##]">삭제</button>
+                </footer>
+              </s_ad_div>
 
               <nav class="post-navigation" aria-label="이전 글과 다음 글">
                 <s_article_prev><a href="[##_article_prev_link_##]"><span>Previous</span><strong>[##_article_prev_title_##]</strong></a></s_article_prev>
